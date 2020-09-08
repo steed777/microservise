@@ -1,0 +1,11 @@
+application:
+  weather-properties:
+    latitude-replaceable: "{latitude}"
+    longitude-replaceable: "{longitude}"
+    url-map:
+      testWeatherService:
+        base-url: https://test/service/weather?lat=${application.weather-properties.latitude-replaceable}&lon=${application.weather-properties.longitude-replaceable}
+        temp-path: /some/where
+  destination-service-properties:
+    base-url: https://test/service/b
+  service-id: openWeatherMap

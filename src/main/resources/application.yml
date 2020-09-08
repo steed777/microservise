@@ -1,0 +1,40 @@
+camel:
+  springboot:
+    name: adapter
+  component:
+    servlet.:
+      mapping:
+        context-path: /api/*
+  rest:
+    component: servlet
+    binding-mode: json
+    data-format-property[prettyPrint]: true
+    enable-cors: true
+    port: ${server.port}
+    context-path: /api
+
+server:
+  port: 8088
+
+logging:
+  level:
+    org.springframework: INFO
+    org.apache.camel.spring.boot: INFO
+    org.apache.camel.impl: DEBUG
+
+application:
+  weather-properties:
+    latitude-replaceable: "{latitude}"
+    longitude-replaceable: "{longitude}"
+    # карта сервисов погоды
+    url-map:
+      # описание сервиса погоды
+      openWeatherMap:
+        app-id: # завести свой appid на сайте сервиса и подставить сюда как значение
+        base-url: https://api.openweathermap.org/data/2.5/weather?lat=${application.weather-properties.latitude-replaceable}&lon=${application.weather-properties.longitude-replaceable}&appid=${application.weather-properties.url-map.openWeatherMap.app-id}
+        temp-path: /main/temp
+  destination-service-properties:
+    # url адаптируемого сревиса
+    base-url: https://microservice/b/api/weather
+  # вызываем сервис погоды
+  service-id: openWeatherMap
